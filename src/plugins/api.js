@@ -146,3 +146,20 @@ export function contractDownload(id) {
     method: 'get'
   })
 }
+
+// 权限管理 -创建管理员
+export function createUser(data) {
+  return request({
+    url: '/permission/createUser',
+    method: 'post',
+    data
+  })
+}
+
+// 权限管理 -列表展示
+export function userList() {
+  return request({
+    url: '/user/list',
+    method: 'get'
+  })
+}

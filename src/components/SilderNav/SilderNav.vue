@@ -14,22 +14,34 @@
           <el-menu-item index="/home">
             <span slot="title">首页</span>
           </el-menu-item>
+          
           <el-menu-item index="/loan/index">
             <span slot="title">贷款申请</span>
           </el-menu-item>
+
           <el-menu-item index="/apply/index">
             <span slot="title">申请管理</span>
           </el-menu-item>
-          <el-submenu index="1">
+
+          <el-submenu index="4">
             <template slot="title">
               <span>贷款审批</span>
             </template>
             <el-menu-item index="/contact/fristCareFul">初审</el-menu-item>
             <el-menu-item index="/contact/endCareFul">终审</el-menu-item>
           </el-submenu>
+
           <el-menu-item index="/subject/index">
             <span slot="title">标的管理</span>
           </el-menu-item>
+
+          <el-submenu index="6">
+            <template slot="title">
+              <span>权限管理</span>
+            </template>
+            <el-menu-item index="/jurisdiction/create">创建管理员</el-menu-item>
+            <el-menu-item index="/jurisdiction/list">列表展示</el-menu-item>
+          </el-submenu>
         </el-menu>
       </el-col>
     </el-row>
