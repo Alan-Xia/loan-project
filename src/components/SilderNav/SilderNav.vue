@@ -1,0 +1,57 @@
+<template>
+  <div class="silder">
+    <el-row class="tac">
+      <el-col :span="12">
+        <el-menu
+          router
+          default-active="1"
+          class="el-menu-vertical-demo"
+          @open="handleOpen"
+          @close="handleClose"
+          background-color="#545c64"
+          text-color="#fff"
+          active-text-color="#ffd04b">
+          <el-menu-item index="/home">
+            <span slot="title">首页</span>
+          </el-menu-item>
+          <el-menu-item index="/loan/index">
+            <span slot="title">贷款申请</span>
+          </el-menu-item>
+          <el-menu-item index="/apply/index">
+            <span slot="title">申请管理</span>
+          </el-menu-item>
+          <el-submenu index="1">
+            <template slot="title">
+              <span>贷款审批</span>
+            </template>
+            <el-menu-item index="/contact/fristCareFul">初审</el-menu-item>
+            <el-menu-item index="/contact/endCareFul">终审</el-menu-item>
+          </el-submenu>
+          <el-menu-item index="/subject/index">
+            <span slot="title">标的管理</span>
+          </el-menu-item>
+        </el-menu>
+      </el-col>
+    </el-row>
+  </div>
+</template>
+
+<script>
+export default {
+  methods: {
+    handleOpen(key, keyPath) {
+      console.log(key, keyPath);
+    },
+    handleClose(key, keyPath) {
+      console.log(key, keyPath);
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+.el-menu-vertical-demo:not(.el-menu--collapse) {
+  width: 200px;
+  min-height: 400px;
+}
+</style>
