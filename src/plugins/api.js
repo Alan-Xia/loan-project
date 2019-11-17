@@ -132,10 +132,11 @@ export function contractQuery(data) {
 }
 
 // 标的管理 -生成合同
-export function contractFile(id) {
+export function contractFile(data) {
   return request({
-    url: `/contract/createFile?id=${id}`,
-    method: 'get'
+    url: '/contract/createFile',
+    method: 'post',
+    data: data
   })
 }
 

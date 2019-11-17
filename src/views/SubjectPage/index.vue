@@ -70,7 +70,7 @@ import {contractQuery,contractFile,contractDownload} from '@/plugins/api'
       },
       createFile (id) {
         console.log(id)
-        contractFile(id).then(res => {
+        contractFile({id}).then(res => {
           console.log(res);
           if (res.code == '20000') {
             this.$notify({
