@@ -8,6 +8,11 @@
       <el-table :data="list" style="width: 100%">
         <el-table-column prop="loan_name" label="姓名"></el-table-column>
         <el-table-column prop="loan_card" label="身份证号码"></el-table-column>
+        <el-table-column prop="status" label="合同状态">
+          <template slot-scope="{row}">
+            <el-tag :type="row.status | statusStyle">{{row.status | dataStatus}}</el-tag>
+          </template>
+        </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="{row}">
             <el-button type="primary" size="small" @click="createFile(row.id)">生成合同</el-button>
@@ -43,11 +48,20 @@ import store from '@/store'
         },
         rows: 1,
         pages:1,
-        list: []
+        list: [],
+        status: false
       }
     },
     created() {
       this.getSubjectData()
+    },
+    filters: {
+      dataStatus (type) {
+        return type == true? '已生成合同' : '未生成合同'
+      },
+      statusStyle (type) {
+        return type == true? 'success' : 'danger'
+      }
     },
     methods: {
       getSubjectData () {
@@ -55,9 +69,13 @@ import store from '@/store'
           console.log(res)
           if (res.code == '20000') {
             this.list = res.data.data.data
+            this.list.forEach(item => {
+              item.status = false
+            })
             this.rows = res.data.data.rows
             this.pages = res.data.data.pages
           }
+          // console.log(this.list);
         })
       },
       handleSizeChange(val) {
@@ -69,10 +87,18 @@ import store from '@/store'
         this.getSubjectData()
       },
       createFile (id) {
-        console.log(id)
         contractFile({id}).then(res => {
-          console.log(res);
           if (res.code == '20000') {
+            this.status = res.data.status
+            if (this.status == true) {
+              this.list.forEach(item => {
+                if (item.id == id) {
+                  item.status = this.status
+                  console.log(item.status)
+                  return 
+                }
+              })
+            }
             this.$notify({
               title: 'success',
               message: '生成合同成功',
