@@ -8,6 +8,14 @@ export function login (data) {
     data
   })
 }
+
+// 获取用户信息
+export function userInfo (token) {
+  return request({
+    url: `/user/info?token=${token}`,
+    method: 'get'
+  })
+}
 // 退出
 export function logout () {
   return request({

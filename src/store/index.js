@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 let store = new Vuex.Store({
   state: {
-    token: getToken() || ''
+    token: getToken() || '',
+    address: 'http://47.96.117.121:5003/api/'
   },
   mutations: {
     setToken (state, token) {

@@ -32,6 +32,7 @@
 
 <script>
 import {contractQuery,contractFile,contractDownload} from '@/plugins/api'
+import store from '@/store'
   export default {
     data() {
       return {
@@ -42,8 +43,7 @@ import {contractQuery,contractFile,contractDownload} from '@/plugins/api'
         },
         rows: 1,
         pages:1,
-        list: [],
-        url: ''
+        list: []
       }
     },
     created() {
@@ -87,7 +87,9 @@ import {contractQuery,contractFile,contractDownload} from '@/plugins/api'
       download (id) {
         contractDownload(id).then(res => {
           if (res.code == '20000') {
-            this.url = res.data.url
+            let url = res.data.url
+            console.log(url)
+            this.downUrlList(url)
             this.$notify({
               title: 'success',
               message: '下载合同成功',
@@ -98,6 +100,18 @@ import {contractQuery,contractFile,contractDownload} from '@/plugins/api'
         }).catch(err => {
           console.log(err)
         })
+      },
+      downUrlList(url) {
+        let address = store.state.address + url
+        var eleLink = document.createElement('a')
+        eleLink.style.display = 'none'
+        eleLink.download = url
+        var blob = new Blob([address]);
+        eleLink.href = URL.createObjectURL(blob)
+        document.body.appendChild(eleLink)
+        eleLink.click();
+        URL.revokeObjectURL(eleLink.href)
+        document.body.removeChild(eleLink)
       }
     }
   }

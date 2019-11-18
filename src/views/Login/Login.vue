@@ -20,7 +20,7 @@
 </template>
 
 <script>
-import {login} from '@/plugins/api'
+import {login,userInfo} from '@/plugins/api'
 import {setToken} from '@/util/cookie'
 export default {
   data() {
@@ -47,6 +47,7 @@ export default {
         if (valid) {
           login(this.form).then(res=>{            
             setToken(res.data.token)
+            this.getUserInfo (res.data.token)
             let redirect = this.$route.query.redirect
             if (!redirect) {
               redirect = '/home'
@@ -61,6 +62,11 @@ export default {
           console.log('error submit!!')
           return false
         }
+      })
+    },
+    getUserInfo (token) {
+      userInfo(token).then(res => {
+        console.log(res)
       })
     }
   },

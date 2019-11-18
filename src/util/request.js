@@ -1,13 +1,14 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
 import {getToken, removeToken} from './cookie'
+import store from '@/store'
 /**
  * 配置axios拦截器
  */
 
  /** 新增链接 */
-const service =axios.create({
-  baseURL: 'http://47.96.117.121:5003/api/', // 后端链接地址
+const service = axios.create({
+  baseURL: store.state.address, // 后端链接地址
   withCredentials: true   // 允许携带cookie
 })
 // http request拦截器
