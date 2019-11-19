@@ -4,7 +4,8 @@
       <i class="iconfont icon-caidan fl menu"></i>
       <el-breadcrumb-item v-for="(it, index) in list" :key="index" class="info">{{it.meta.title}}</el-breadcrumb-item>
     </el-breadcrumb>
-    <div class="fr">
+    <div class="fr main">
+      <el-tag :type="username | typeInfo" class="info">{{username? username : ''}}</el-tag>
       <el-dropdown>
         <span class="el-dropdown-link">
           退出<i class="el-icon-arrow-down el-icon--right"></i>
@@ -21,15 +22,23 @@
 
 <script>
 import {logout} from '@/plugins/api'
-import {removeToken} from '@/util/cookie'
+import {removeToken,getToken} from '@/util/cookie'
+import {getUinfo,clearAll} from '@/util/auth'
   export default {
     data() {
       return {
-        list: []
+        list: [],
+        username: ''
       }
     },
     created() {
       this.getRouteInfo()
+      this.getUserName()
+    },
+    filters:{
+      typeInfo (type) {
+        type != null || type != '' ? 'success' : 'danger'
+      }
     },
     methods: {
       getRouteInfo () {
@@ -39,10 +48,17 @@ import {removeToken} from '@/util/cookie'
       logout () {
         logout().then(res =>{
           removeToken()
+          clearAll()
           this.$router.push('/login')
         }).catch(err => {
           console.log(err)
         })
+      },
+      getUserName () {
+        if (getToken() && getUinfo()) {
+          this.username = getUinfo().data.roles[0].name
+        }
+        console.log(this.username)
       }
     },
     watch: {
@@ -70,6 +86,11 @@ import {removeToken} from '@/util/cookie'
       padding-top: 2px;
       color: #CBCCD6;
       font-size: 14px;
+    }
+  }
+  .main{
+    .info {
+      margin-right: 20px;
     }
   }
 }

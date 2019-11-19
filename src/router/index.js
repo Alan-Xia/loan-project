@@ -21,13 +21,13 @@ let router =  new Router({
     {
       path: '/',
       component: Layout,
-      redirect:'/home',
+      redirect:'/index',
       meta:{
         isLogin: true
       },
       children:[
         {
-          path: 'home',
+          path: 'index',
           name: 'home',
           component: () => import('@/views/HomePage/HomePage.vue'),
           meta:{
@@ -38,9 +38,9 @@ let router =  new Router({
       ]
     },
     {
-      path: '/loan',
+      path: '/loan/req',
       component: Layout,
-      redirect:'/loan/index',
+      redirect:'/loan/req/index',
       meta:{
         isLogin: true
       },
@@ -57,9 +57,9 @@ let router =  new Router({
       ]
     },
     {
-      path: '/apply',
+      path: '/loan/manager',
       component: Layout,
-      redirect:'/apply/index',
+      redirect:'/loan/manager/index',
       meta:{
         isLogin: true
       },
@@ -76,16 +76,16 @@ let router =  new Router({
       ]
     },
     {
-      path: '/contact',
+      path: '/approve',
       component: Layout,
-      redirect:'/contact/fristCareFul',
+      redirect:'/approve/first',
       meta:{
         title: '贷款审批',
         isLogin: true
       },
       children:[
         {
-          path: 'fristCareFul',
+          path: 'first',
           name: 'fristCareFul',
           component: () => import('@/views/ContactPage/fristCareFul.vue'),
           meta:{
@@ -94,7 +94,7 @@ let router =  new Router({
           }
         },
         {
-          path: 'endCareFul',
+          path: 'end',
           name: 'endCareFul',
           component: () => import('@/views/ContactPage/endCareFul.vue'),
           meta:{
@@ -105,9 +105,9 @@ let router =  new Router({
       ]
     },
     {
-      path: '/subject',
+      path: '/contract/manager',
       component: Layout,
-      redirect:'/subject/index',
+      redirect:'/contract/manager/index',
       meta:{
         isLogin: true
       },

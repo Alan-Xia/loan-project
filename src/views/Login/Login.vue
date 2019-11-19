@@ -22,6 +22,7 @@
 <script>
 import {login,userInfo} from '@/plugins/api'
 import {setToken} from '@/util/cookie'
+import {setUinfo} from '@/util/auth'
 export default {
   data() {
     return {
@@ -67,6 +68,7 @@ export default {
     getUserInfo (token) {
       userInfo(token).then(res => {
         console.log(res)
+        setUinfo(res)
       })
     }
   },
