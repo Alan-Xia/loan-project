@@ -15,8 +15,8 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="{row}">
-            <el-button type="primary" size="small" @click="createFile(row.id)">生成合同</el-button>
-            <el-button type="danger" size="small" @click="download(row.id)">下载合同</el-button>
+            <el-button type="primary" size="small" @click="createFile(row.id)" :disabled="row.file_path">生成合同</el-button>
+            <el-button type="danger" size="small" @click="download(row.id)" :disabled="!row.file_path">下载合同</el-button>
           </template>
         </el-table-column>
       </el-table>

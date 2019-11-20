@@ -51,7 +51,7 @@ export default {
             this.getUserInfo (res.data.token)
             let redirect = this.$route.query.redirect
             if (!redirect) {
-              redirect = '/home'
+              redirect = '/index'
             }
             this.$router.push({
               path: redirect

@@ -63,7 +63,9 @@ export default {
         case 'approve':
           return '初审人员'
         case 'administrator':
-          return '管理员'
+          return '超级管理员'
+          case '':
+          return '申请填写错误';
         default:
           '申请填写错误';
       }
