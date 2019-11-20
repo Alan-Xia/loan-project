@@ -37,6 +37,7 @@
 
 <script>
 import {contractQuery,contractFile,contractDownload} from '@/plugins/api'
+import {getToken} from '@/util/cookie'
 import store from '@/store'
   export default {
     data() {
@@ -111,33 +112,47 @@ import store from '@/store'
         })
       },
       download (id) {
-        contractDownload(id).then(res => {
+        contractDownload({id:id}).then(res => {
           if (res.code == '20000') {
-            let url = res.data.url
-            console.log(url)
-            this.downUrlList(url)
             this.$notify({
               title: 'success',
               message: '下载合同成功',
               type: 'success',
               duration: 2000
             })
+            this.downUrl(store.state.address + res.data.url)
           }
         }).catch(err => {
           console.log(err)
         })
       },
-      downUrlList(url) {
-        let address = store.state.address + url
+      downUrl(url) {
+        //下载需要权限才用这个方法体
+        const xhr = new XMLHttpRequest()  // 定义http异步请求
+        xhr.open('GET',url,true) // 发送地址
+        xhr.withCredentials = true // 允许携带cookie
+        xhr.responseType = 'blob' //响应类型  blob字节流
+        xhr.setRequestHeader('token', getToken()) //传入token
+        console.log(getToken())
+        xhr.onload = () => {
+          if (xhr.status === 200) {
+            // 获取图片blob数据并保存   responseURL
+            let fileName = xhr.responseURL.substring(xhr.responseURL.lastIndexOf('/') + 1)
+            console.log(fileName,xhr.response)
+            this.saveAs(fileName, xhr.response)
+          }
+        }
+        xhr.send()
+      },
+      saveAs (name, data) {
+        //代表二进制类型的大对象,就是Blob对象是二进制数据
+        var blob = new Blob([data])
+        //创建a标签
         var eleLink = document.createElement('a')
-        eleLink.style.display = 'none'
-        eleLink.download = url
-        var blob = new Blob([address]);
-        eleLink.href = URL.createObjectURL(blob)
-        document.body.appendChild(eleLink)
-        eleLink.click();
-        URL.revokeObjectURL(eleLink.href)
-        document.body.removeChild(eleLink)
+        //window对象的URL对象是专门用来将blob或者file读取成一个url的,通过URL.createObjectURL(blob)可以获取当前文件的一个内存URL
+        eleLink.href = window.URL.createObjectURL(blob)
+        eleLink.download = name
+        eleLink.click()
       }
     }
   }

@@ -149,10 +149,11 @@ export function contractFile(data) {
 }
 
 // 标的管理 -下载合同
-export function contractDownload(id) {
+export function contractDownload(data) {
   return request({
-    url: `/contract/download?id=${id}`,
-    method: 'get'
+    url: '/contract/download',
+    method: 'get',
+    params: data
   })
 }
 

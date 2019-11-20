@@ -8,7 +8,7 @@ import store from '@/store'
 
  /** 新增链接 */
 const service = axios.create({
-  baseURL: store.state.address, // 后端链接地址
+  baseURL: store.state.address + '/api/', // 后端链接地址
   withCredentials: true   // 允许携带cookie
 })
 // http request拦截器
