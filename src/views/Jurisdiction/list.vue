@@ -56,7 +56,17 @@ export default {
       return birthday
     },
     jurisdiction (type) {
-      return type == 'input' ? '销售人员' : '初审人员'
+      // return type == 'input' ? '销售人员' : '初审人员'
+      switch (type) {
+        case 'input':
+          return '销售人员'
+        case 'approve':
+          return '初审人员'
+        case 'administrator':
+          return '管理员'
+        default:
+          '申请填写错误';
+      }
     }
   },
   methods: {

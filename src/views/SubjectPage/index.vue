@@ -10,7 +10,7 @@
         <el-table-column prop="loan_card" label="身份证号码"></el-table-column>
         <el-table-column prop="status" label="合同状态">
           <template slot-scope="{row}">
-            <el-tag :type="row.status | statusStyle">{{row.status | dataStatus}}</el-tag>
+            <el-tag :type="row.file_path | statusStyle">{{row.file_path | dataStatus}}</el-tag>
           </template>
         </el-table-column>
         <el-table-column label="操作">
@@ -57,10 +57,10 @@ import store from '@/store'
     },
     filters: {
       dataStatus (type) {
-        return type == true? '已生成合同' : '未生成合同'
+        return type ? '已生成合同' : '未生成合同'
       },
       statusStyle (type) {
-        return type == true? 'success' : 'danger'
+        return type ? 'success' : 'danger'
       }
     },
     methods: {
