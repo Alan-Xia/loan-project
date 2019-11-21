@@ -5,10 +5,10 @@
         <h2>信贷管理系统</h2>
         <el-form ref="form" :rules="rules" :model="form" class="table">
           <el-form-item prop="username">
-            <el-input v-model="form.account" placeholder="请输入用户名"></el-input>
+            <el-input v-model.trim="form.account" placeholder="请输入用户名"></el-input>
           </el-form-item>
           <el-form-item  prop="password">
-            <el-input v-model="form.password" placeholder="请输入密码"></el-input>
+            <el-input v-model.trim="form.password" placeholder="请输入密码"></el-input>
           </el-form-item>
           <el-form-item class="submit">
             <el-button type="primary" @click="onSubmit('form')" style="width:100%">确定</el-button>
@@ -20,9 +20,6 @@
 </template>
 
 <script>
-import {login,userInfo} from '@/plugins/api'
-import {setToken} from '@/util/cookie'
-import {setUinfo} from '@/util/auth'
 export default {
   data() {
     return {
@@ -46,9 +43,7 @@ export default {
     onSubmit (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          login(this.form).then(res=>{            
-            setToken(res.data.token)
-            this.getUserInfo (res.data.token)
+          this.$store.dispatch('Login',this.form).then(res => {
             let redirect = this.$route.query.redirect
             if (!redirect) {
               redirect = '/index'
@@ -63,12 +58,6 @@ export default {
           console.log('error submit!!')
           return false
         }
-      })
-    },
-    getUserInfo (token) {
-      userInfo(token).then(res => {
-        console.log(res)
-        setUinfo(res)
       })
     }
   },

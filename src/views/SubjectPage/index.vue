@@ -120,7 +120,7 @@ import store from '@/store'
               type: 'success',
               duration: 2000
             })
-            this.downUrl(store.state.address + res.data.url)
+            this.downUrl(store.getters.address + res.data.url)
           }
         }).catch(err => {
           console.log(err)

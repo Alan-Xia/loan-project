@@ -8,7 +8,7 @@ import store from '@/store'
 
  /** 新增链接 */
 const service = axios.create({
-  baseURL: store.state.address + '/api/', // 后端链接地址
+  baseURL: 'http://47.96.117.121:5003/api/', // 后端链接地址
   withCredentials: true   // 允许携带cookie
 })
 // http request拦截器
@@ -47,13 +47,13 @@ service.interceptors.response.use(
     }
   },error => {
   console.log('err:',error)
-  if (err.response.status === 401) { // 未授权
+  /* if (err.response.status === 401) { // 未授权
     clearHandler()
   }
-  Promise.reject(error)
+  Promi */se.reject(error)
 })
 
-function clearHandler() {
+/* function clearHandler() {
   // 清空缓存
   removeToken ()
   // 跳转至登录页
@@ -63,6 +63,6 @@ function clearHandler() {
       redirect: router.currentRoute.path
   }
   });
-}
+} */
 
 export default service

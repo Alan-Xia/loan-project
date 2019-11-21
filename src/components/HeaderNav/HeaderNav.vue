@@ -5,7 +5,7 @@
       <el-breadcrumb-item v-for="(it, index) in list" :key="index" class="info">{{it.meta.title}}</el-breadcrumb-item>
     </el-breadcrumb>
     <div class="fr main">
-      <el-tag :type="username | typeInfo" class="info">{{username? username : ''}}</el-tag>
+      <el-tag :type="username | typeInfo" class="info">{{username? username : '没登陆'}}</el-tag>
       <el-dropdown>
         <span class="el-dropdown-link">
           退出<i class="el-icon-arrow-down el-icon--right"></i>
@@ -21,9 +21,6 @@
 </template>
 
 <script>
-import {logout} from '@/plugins/api'
-import {removeToken,getToken} from '@/util/cookie'
-import {getUinfo,clearAll} from '@/util/auth'
   export default {
     data() {
       return {
@@ -33,7 +30,6 @@ import {getUinfo,clearAll} from '@/util/auth'
     },
     created() {
       this.getRouteInfo()
-      this.getUserName()
     },
     filters:{
       typeInfo (type) {
@@ -46,19 +42,9 @@ import {getUinfo,clearAll} from '@/util/auth'
         // this.list = this.$route.matched.filter(v=> v.meta && v.meta.title)
       },
       logout () {
-        logout().then(res =>{
-          removeToken()
-          clearAll()
+        this.$store.dispatch('Logout').then(res => {
           this.$router.push('/login')
-        }).catch(err => {
-          console.log(err)
         })
-      },
-      getUserName () {
-        if (getToken() && getUinfo()) {
-          this.username = getUinfo().data.roles[0].name
-        }
-        console.log(this.username)
       }
     },
     watch: {
