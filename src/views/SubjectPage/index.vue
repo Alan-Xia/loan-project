@@ -15,8 +15,8 @@
         </el-table-column>
         <el-table-column label="操作">
           <template slot-scope="{row}">
-            <el-button type="primary" size="small" @click="createFile(row.id)" :disabled="row.file_path">生成合同</el-button>
-            <el-button type="danger" size="small" @click="download(row.id)" :disabled="!row.file_path">下载合同</el-button>
+            <el-button type="primary" size="small" @click="createFile(row.id)" :disabled="!!row.file_path">生成合同</el-button>
+            <el-button type="danger" size="small" @click="download(row.id)" :disabled="!!!row.file_path">下载合同</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -91,15 +91,6 @@ import store from '@/store'
         contractFile({id}).then(res => {
           if (res.code == '20000') {
             this.status = res.data.status
-            if (this.status == true) {
-              this.list.forEach(item => {
-                if (item.id == id) {
-                  item.status = this.status
-                  console.log(item.status)
-                  return 
-                }
-              })
-            }
             this.$notify({
               title: 'success',
               message: '生成合同成功',

@@ -1,128 +1,194 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Layout from '@/views/LayoutPage/LayoutPage.vue'   //布局
+import Layout from '@/views/LayoutPage/LayoutPage.vue'
+import {getToken} from '@/util/cookie'
 
 Vue.use(Router)
-import permissionRouter from './modules/permission'
 
-export const constantRoutes = [   //常规配置
-  {
-    path: '/login',
-    name: 'login',
-    component: ()=>import('@/views/Login/Login.vue')
-  },
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/index',
-    meta: {
-      title: '首页'
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/HomePage/HomePage.vue'),
-        name: '首页',
-        meta: {
-          title: '首页'
-        }
+let router =  new Router({
+  mode: 'history',
+  linkActiveClass: 'active',
+  routes: [
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('@/views/Login/Login.vue'),
+      meta: {
+        isLogin: false,
+        title: '登录'
       }
-    ]
-  },
-]
-
-export const asyncRoutes = [   //异步路由
-  {
-    path: '/loan/req',   //loan-input  贷款申请 
-    component: Layout,
-    redirect: '/loan/req/index',
-    meta: {
-      title: '贷款申请', 
-      roles: ['input']   //角色销售人员
     },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/LoanPage/LoanPage.vue'),
-        name: '贷款申请',
-        meta: {
-          title: '贷款申请'
-        }
-      }
-    ]
-  },
-  {
-    path: '/input-manager',  //input-manager申请管理
-    redirect: '/input-manager/index',
-    component: Layout,
-    meta: {
-      title: '申请管理',
-      roles: ['input']   //角色销售人员
-    },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/ApplyPage/ApplyPage.vue'),
-        name: '申请管理',
-        meta: {
-          title: '申请管理'
-        }
-      }
-    ]
-  },
-
-  {
-    path: '/approve',  //loan-approve 贷款审批
-    component: Layout,
-    redirect: '/approve/first',
-    name: '贷款审批',
-    meta: {
-      title: '贷款审批',
-      roles: ['approve']  //角色审核人员
-    },
-    children: [
-      {
-        path: 'first',  //first 初审
-        component: () => import('@/views/ContactPage/fristCareFul.vue'),
-        name: '初审',
-        meta: {
-          title: '初审'
-        }
+    {
+      path: '/',
+      component: Layout,
+      redirect:'/index',
+      meta:{
+        isLogin: true
       },
-      {
-        path: 'end',  //end  终审
-        component: () => import('@/views/ContactPage/endCareFul.vue'),
-        name: '终审',
-        meta: {
-          title: '终审', 
-          icon: 'list'
+      children:[
+        {
+          path: 'index',
+          name: 'home',
+          component: () => import('@/views/HomePage/HomePage.vue'),
+          meta:{
+            isLogin: true,
+            title: '首页'
+          }
         }
-      }
-    ]
-  },
-
-  {
-    path: '/contract/manager',  //contract 标的管理
-    component: Layout,
-    redirect: '/contract/manager/index',
-    meta: {
-      title: '标的管理'
+      ]
     },
-    children: [
-      {
-        path: 'index',
-        component: () => import('@/views/SubjectPage/index.vue'),
-        name: '标的管理',
-        meta: {
-          title: '标的管理'
+    {
+      path: '/loan/req',
+      component: Layout,
+      redirect:'/loan/req/index',
+      meta:{
+        isLogin: true
+      },
+      children:[
+        {
+          path: 'index',
+          name: 'loan',
+          component: () => import('@/views/LoanPage/LoanPage.vue'),
+          meta:{
+            isLogin: true,
+            title: '贷款申请'
+          }
         }
+      ]
+    },
+    {
+      path: '/loan/manager',
+      component: Layout,
+      redirect:'/loan/manager/index',
+      meta:{
+        isLogin: true
+      },
+      children:[
+        {
+          path: 'index',
+          name: 'apply',
+          component: () => import('@/views/ApplyPage/ApplyPage.vue'),
+          meta:{
+            isLogin: true,
+            title: '申请管理'
+          }
+        }
+      ]
+    },
+    {
+      path: '/approve',
+      component: Layout,
+      redirect:'/approve/first',
+      meta:{
+        title: '贷款审批',
+        isLogin: true
+      },
+      children:[
+        {
+          path: 'first',
+          name: 'fristCareFul',
+          component: () => import('@/views/ContactPage/fristCareFul.vue'),
+          meta:{
+            isLogin: true,
+            title: '初审'
+          }
+        },
+        {
+          path: 'end',
+          name: 'endCareFul',
+          component: () => import('@/views/ContactPage/endCareFul.vue'),
+          meta:{
+            isLogin: true,
+            title: '终审'
+          }
+        }
+      ]
+    },
+    {
+      path: '/contract/manager',
+      component: Layout,
+      redirect:'/contract/manager/index',
+      meta:{
+        isLogin: true
+      },
+      children:[
+        {
+          path: 'index',
+          name: 'subject',
+          component: () => import('@/views/SubjectPage/index.vue'),
+          meta:{
+            isLogin: true,
+            title: '标的管理'
+          }
+        }
+      ]
+    },
+    {
+      path: '/jurisdiction',
+      component: Layout,
+      redirect:'/jurisdiction/create',
+      meta:{
+        title: '权限管理',
+        isLogin: true
+      },
+      children:[
+        {
+          path: 'create',
+          name: 'create',
+          component: () => import('@/views/Jurisdiction/create.vue'),
+          meta:{
+            isLogin: true,
+            title: '创建管理员'
+          }
+        },
+        {
+          path: 'list',
+          name: 'list',
+          component: () => import('@/views/Jurisdiction/list.vue'),
+          meta:{
+            isLogin: true,
+            title: '列表展示'
+          }
+        }
+      ]
+    },
+    {
+      path: '*',
+      name: '404',
+      component: () => import('@/views/NoFound/NoFound.vue'),
+      meta: {
+        isLogin: false,
+        title: '404'
       }
-    ]
-  },
-  permissionRouter,
-  { path: '*', redirect: '/login' }
-]
-
-export default new Router({
-  routes: constantRoutes
+      
+    }
+  ]
 })
+
+// 路由守卫
+router.beforeEach ((to, form , next) => {
+  if (to.meta.isLogin) {
+    if (getToken()) {
+      next()
+    } else {
+      next ({
+        path: '/login',
+        query: {redirect: to.path}
+      })
+    }
+  } else {
+    next()
+  }
+})
+
+//修改页面title
+router.afterEach((to,form) => {
+  if (to.meta.title) {
+    window.document.title = to.meta.title
+  } else {
+    window.document.title = '贷款项目'
+  }
+})
+
+
+export default router
