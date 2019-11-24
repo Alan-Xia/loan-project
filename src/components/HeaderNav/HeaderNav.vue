@@ -43,7 +43,7 @@
       },
       logout () {
         this.$store.dispatch('Logout').then(res => {
-          this.$router.push('/login')
+          this.$router.push('/')
         })
       }
     },

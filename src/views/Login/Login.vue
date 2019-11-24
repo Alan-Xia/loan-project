@@ -44,12 +44,8 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           this.$store.dispatch('Login',this.form).then(res => {
-            let redirect = this.$route.query.redirect
-            if (!redirect) {
-              redirect = '/index'
-            }
             this.$router.push({
-              path: redirect
+              path: '/index'
             })
           }).catch(error=>{
             console.log(error)

@@ -15,26 +15,23 @@ let user = {
     }
   },
   actions:{
-    Login ({commit},userInfo) {
-      const { account, password } = userInfo
+    Login ({commit},user) {
+      const { account, password } = user
       return new Promise((resolve,reject) => {
-        login({account,password}).then(res => {
-          console.log(res)
-          if (res.code == '20000') {
-            const token = res.data.token
-            setToken(token)
-            commit('SET_TOKEN',token)
-            resolve(token)
-          }
+        login({account,password}).then(response => {
+          const { data } = response;
+          commit('SET_TOKEN', data.token); //mutations
+          setToken(data.token); //值保存到cookie
+          resolve(data.token)
         }).catch(error => {
           reject(error)
         })
       })
     },
-    getUserInfo ({commit,state}) {
+    GetInfo ({commit,state}) {
       return new Promise((resolve,reject) =>{
         userInfo(state.token).then(res =>{
-          const data = res.data
+          const {data} = res
           if (!data) {
             reject('获取信息失败')
           }
@@ -47,10 +44,9 @@ let user = {
     },
     Logout ({commit,state}) {
       return new Promise((resolve,reject) =>{
-        logout(state.token).then(() =>{
+        logout().then(() =>{
           commit('SET_TOKEN', '')
           commit('SET_ROLES', [])
-          removeToken()
           resolve()
         }).catch(err =>{
           reject(err)
@@ -60,7 +56,7 @@ let user = {
   },
   getters:{
     token: state => state.token,
-    roles: state => state.token,
+    roles: state => state.roles,
     address: state => state.address
   }
 }

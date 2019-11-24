@@ -8,7 +8,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './theme/public.scss'
 import store from './store'
 import './assets/iconfont/iconfont.css'
-
+import './user_roles'
 // Vue.prototype.$api = axios
 // axios.defaults.baseURL = 'http://47.96.117.121:5003/api/'
 
