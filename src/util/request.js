@@ -49,8 +49,8 @@ service.interceptors.response.use(
   console.log('err:',error)
   /* if (err.response.status === 401) { // 未授权
     clearHandler()
-  }
-  Promi */se.reject(error)
+  }*/
+  Promise.reject(error)
 })
 
 /* function clearHandler() {
