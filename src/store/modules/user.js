@@ -4,7 +4,8 @@ let user = {
   state: {
     token: getToken(),
     address: 'http://47.96.117.121:5003',
-    roles: []
+    roles: [],
+    username: ''
   },
   mutations:{
     SET_TOKEN (state, token) {
@@ -12,6 +13,9 @@ let user = {
     },
     SET_ROLES (state,roles) {
       state.roles = roles
+    },
+    SET_NAME (state,username) {
+      state.username = username
     }
   },
   actions:{
@@ -57,7 +61,8 @@ let user = {
   getters:{
     token: state => state.token,
     roles: state => state.roles,
-    address: state => state.address
+    address: state => state.address,
+    username: state => state.username
   }
 }
 

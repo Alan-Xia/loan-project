@@ -32,7 +32,7 @@ import HeaderNav from '@/components/HeaderNav/HeaderNav'
 .slider{
  height: 100%;
  width: 200px;
- background: #545c64;
+ background: #fff;
  overflow-x: hidden;
 }
 .main {

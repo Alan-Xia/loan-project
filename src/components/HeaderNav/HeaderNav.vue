@@ -21,11 +21,11 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
   export default {
     data() {
       return {
-        list: [],
-        username: ''
+        list: []
       }
     },
     created() {
@@ -51,6 +51,9 @@
       $route () {
         this.getRouteInfo()
       }
+    },
+    computed: {
+      ...mapGetters(['username'])
     }
   }
 </script>
